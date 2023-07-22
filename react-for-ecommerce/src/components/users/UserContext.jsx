@@ -2,7 +2,6 @@ import React from "react";
 import { useState, createContext } from "react";
 import { useEffect } from "react";
 import Swal from 'sweetalert2';
-import Cookies from 'universal-cookie';
 
 
 export const UserContext = createContext();
@@ -32,7 +31,7 @@ function UserContextProvider({children}) {
             setLoading(false);
         });
         
-    },[])
+    })
     const getUser = async () => {
         const response = await fetch(serverEndpoint+'/api/sessions/current', {credentials: 'include'})
         let userData = await response.json();

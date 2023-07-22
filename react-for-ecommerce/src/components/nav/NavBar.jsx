@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link} from "react-router-dom";
 import LoadLinks from "./LoadLinks";
 import CartWidget from "./CartWidget";
 import { UserContext } from "../users/UserContext";
-import { CartContext } from "../carts/CartContext";
 import {Avatar} from '@primer/react'
 
 

@@ -15,7 +15,7 @@ function UsersPanel () {
                 setAllUsers(users);
             })
         }
-    },[user])
+    },[user,getUsers])
     console.log(allUsers)
     return(
         <>

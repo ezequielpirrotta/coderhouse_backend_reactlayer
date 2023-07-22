@@ -19,7 +19,7 @@ function Orders () {
                 })
             }
         }
-    },[user,setOrders])
+    },[user,setOrders,getOrders])
     
     const [search, setSearch] = useState("")
     

@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { useContext } from "react";
 import { CartContext } from "../carts/CartContext";
-import { UserContext } from "../users/UserContext";
 import Order from "./Order";
 import Swal from 'sweetalert2';
 
