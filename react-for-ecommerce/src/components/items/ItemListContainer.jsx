@@ -2,23 +2,22 @@ import React, { useState , useEffect, useContext} from "react";
 import ItemList from "./ItemList";
 import FilterNavbar from "../nav/FilterNavbar";
 import {useSearchParams } from "react-router-dom";
-//import { CartContext } from "../carts/CartContext";
 import Swal from 'sweetalert2';
 import { UserContext } from "../users/UserContext";
 import {MDBContainer,MDBPagination,MDBPaginationLink,MDBPaginationItem,MDBBtnGroup,MDBBtn,MDBRow, MDBCol} from "mdb-react-ui-kit"
 
-const server_port = '8080';
-const endpoint = 'http://localhost:';
+
+console.log(process.env.REACT_APP_SERVER_ENDPOINT)
 
 function ItemListContainer() 
 {
-    const {user} = useContext(UserContext)
+
+    const {user, serverEndpoint} = useContext(UserContext)
     const [products, setProducts] = useState({});
     const [searchParams, setSearchParams] = useSearchParams();
     
     useEffect(  () => {
             
-        
         const getProducts = async () => {
             try{
 
@@ -57,7 +56,7 @@ function ItemListContainer()
                     }
                     
                 } 
-                data.products = await fetch(endpoint+server_port+'/api/products'+params,{credentials:"include"})
+                data.products = await fetch(serverEndpoint+'/api/products'+params,{credentials:"include"})
                 .then( (response) => response.json());
                 if(data.products.status === "WRONG" || data.products.error){
                     data.founded = false;
@@ -170,7 +169,7 @@ function ItemListContainer()
                     },
                     credentials: 'include'
                 }
-                const request = new Request(endpoint+server_port+'/api/products/', requestData)
+                const request = new Request(serverEndpoint+'/api/products/', requestData)
                 fetch(request)
                 .then( async (response) => {
                     
@@ -264,8 +263,3 @@ function ItemListContainer()
 }
 
 export default ItemListContainer;
-/**
- * <div id="main" className="container-fluid justify-content-center"> 
-    </div>
- * 
- */

@@ -16,8 +16,7 @@ import {
   MDBCardHeader,
 } from "mdb-react-ui-kit";
 
-const server_port = '8080';
-const endpoint = 'http://localhost:';
+const serverEndpoint = process.env.SERVER_ENDPOINT;
 
 function Chat() {
 
@@ -57,7 +56,7 @@ function Chat() {
      */
     const [inputValue, setInputValue] = useState('');
     const [message, setMessage] = useState([]);
-    const socket = io(endpoint+server_port,{withCredentials: true}); // Establish a socket connection
+    const socket = io(serverEndpoint,{withCredentials: true}); // Establish a socket connection
     
     useEffect(() => {
         // Manejar mensajes entrantes
@@ -65,7 +64,7 @@ function Chat() {
             setMessage((prevMessages) => [...prevMessages, message]);
         });
         socket.on("userConnected", (user) => {
-
+          
         })       
         // Limpieza al desmontar el componente
         return () => {

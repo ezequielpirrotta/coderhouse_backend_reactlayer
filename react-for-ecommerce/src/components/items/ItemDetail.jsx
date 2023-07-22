@@ -3,15 +3,15 @@ import Error from "../errors_&_timeout/Error";
 import React, { useState, useContext } from "react";
 import Swal from 'sweetalert2';
 import { CartContext } from "../carts/CartContext";
+import { UserContext } from "../users/UserContext";
 import { Link } from "react-router-dom";
 import { MDBCardBody, MDBCardText,MDBCardTitle,MDBCardImage, MDBCard, MDBIcon } from "mdb-react-ui-kit";
 
-const server_port = '8080';
-const endpoint = 'http://localhost:';
 
 const ItemDetail = ({product}) => 
 {
     const {addItem} = useContext(CartContext);
+    const { serverEndpoint } = useContext(UserContext)
     const [sold, setSold] = useState(false);
     const onAdd = async (quantity, stock) => {
         if((stock > 0) && (quantity <= stock)) {
@@ -67,7 +67,7 @@ const ItemDetail = ({product}) =>
                 },
                 credentials: 'include'
             }
-            const request = new Request(endpoint+server_port+'/api/products/'+product._id, requestData)
+            const request = new Request(serverEndpoint+'/api/products/'+product._id, requestData)
             fetch(request)
             .then( async (response) => {
                 
@@ -114,7 +114,7 @@ const ItemDetail = ({product}) =>
                     },
                     credentials: 'include'
                 }
-                const request = new Request(endpoint+server_port+'/api/products/'+product._id, requestData)
+                const request = new Request(serverEndpoint+'/api/products/'+product._id, requestData)
                 fetch(request)
                 .then( async (response) => {
                     

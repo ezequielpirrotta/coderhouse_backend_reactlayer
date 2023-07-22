@@ -7,12 +7,6 @@ function Profile()
 {
     const {user, loading, changeRol, uploadDocs} = useContext(UserContext);
     
-    /*useEffect(  async () => {
-        //let result  = await fetch(endpoint+server_port+'/api/sessions/current').then((response)=>response.json())
-        fetchUserProfile()
-        //setUser(result)
-    })*/
-    
     return (
         <div className="container justify-content-center">
             { loading ? 
@@ -66,15 +60,24 @@ function Profile()
                         </div>
                     </div>
                     <div className="m-2 row d-flex justify-content-center align-items-center">
-                        <div className="col d-flex flex-column ">
-                            <Link to={"/orders"} className="btn btn-secondary p-2">Ir a órdenes</Link>
-                        </div>
-                        <div className="col d-flex flex-column ">
-                            <Link className="btn btn-info p-2" onClick={uploadDocs}>Documentación</Link>
-                        </div>
-                        <div className="col d-flex flex-column justify-content-between">
-                            <Link className="btn btn-warning p-2" onClick={changeRol}>Cambiar rol</Link>
-                        </div>
+                        {
+                            user.role==='admin'?
+                            <div className="col d-flex flex-column ">
+                                <Link to={"/users/panel"} className="btn btn-secondary p-2">Usuarios</Link>
+                            </div>
+                            :
+                            <>
+                                <div className="col d-flex flex-column ">
+                                    <Link to={"/orders"} className="btn btn-secondary p-2">Ir a órdenes</Link>
+                                </div>
+                                <div className="col d-flex flex-column ">
+                                    <Link className="btn btn-info p-2" onClick={uploadDocs}>Documentación</Link>
+                                </div>
+                                <div className="col d-flex flex-column justify-content-between">
+                                    <Link className="btn btn-warning p-2" onClick={changeRol}>Cambiar rol</Link>
+                                </div>
+                            </>
+                        }
                     </div>
                 </div>
                 : 

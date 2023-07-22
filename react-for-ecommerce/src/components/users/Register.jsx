@@ -5,7 +5,7 @@ import { InputGroup, FormControl, Button } from "react-bootstrap";
 
 function Register() 
 {
-    const {user, port, server_port, endpoint} = useContext(UserContext);
+    const {user, serverEndpoint} = useContext(UserContext);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
@@ -58,7 +58,7 @@ function Register()
         if (validateForm()) {
             const data = {username,password,name,lastName,age, adminRole: isCheckedAdmin,premiumRole: isCheckedPremium};
             console.log(data)
-            const result = await fetch(endpoint+server_port+'/api/sessions/register',{
+            const result = await fetch(serverEndpoint+'/api/sessions/register',{
                 method:'POST',
                 body:JSON.stringify(data),
                 headers:{
@@ -127,7 +127,7 @@ function Register()
                     <div className="shadow-lg bg-body rounded">
                         <form id="loginForm" className="card-body row g-3 d-flex justify-content-center needs-validation" noValidate>
                             <div className="col-12">
-                                <a className="btn btn-primary" href="/products" type="submit">Continuar </a>
+                                <a className="btn btn-primary" href="/products" type="submit">Continuar como <b>{user.name}</b></a>
                             </div>
                         </form>
                     </div>

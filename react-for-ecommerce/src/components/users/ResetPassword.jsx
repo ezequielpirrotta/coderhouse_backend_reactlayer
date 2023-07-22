@@ -7,7 +7,7 @@ import { useJwt } from "react-jwt";
 
 function ResetPassword() 
 {
-    const {user, port, server_port, endpoint} = useContext(UserContext);
+    const {serverEndpoint} = useContext(UserContext);
     const [username, setUsername] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -38,7 +38,7 @@ function ResetPassword()
         if (validateForm()) {
             const data = {username, newPassword, confirmNewPassword};
             console.log(data)
-            const result = await fetch(endpoint+server_port+'/api/sessions/resetPassword',{
+            const result = await fetch(serverEndpoint+'/api/sessions/resetPassword',{
                 method:'POST',
                 body:JSON.stringify(data),
                 headers:{

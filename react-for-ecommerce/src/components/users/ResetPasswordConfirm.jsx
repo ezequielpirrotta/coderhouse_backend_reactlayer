@@ -4,7 +4,7 @@ import { UserContext } from "./UserContext";
 
 function ResetPasswordConfirm() 
 {
-    const {port,server_port, endpoint} = useContext(UserContext);
+    const {port, serverEndpoint} = useContext(UserContext);
     const [username, setUsername] = useState('');
     const [errors, setErrors] = useState({});
     const [sended, setSended] = useState(false)
@@ -19,9 +19,9 @@ function ResetPasswordConfirm()
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (validateForm()) {
-            const data = {username:username,link:`${endpoint+port}/users/resetPassword`};
+            const data = {username:username,link:`${serverEndpoint}/users/resetPassword`};
             console.log(data)
-            const result = await fetch(endpoint+server_port+'/api/sessions/resetPasswordConfirm',{
+            const result = await fetch(serverEndpoint+'/api/sessions/resetPasswordConfirm',{
                 method:'POST',
                 body:JSON.stringify(data),
                 headers:{

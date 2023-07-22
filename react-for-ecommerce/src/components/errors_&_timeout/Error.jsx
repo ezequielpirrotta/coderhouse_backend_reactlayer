@@ -1,6 +1,6 @@
 import React from "react";
 
-function Error ({status, quantity}) {
+function Error ({status, quantity, customMessage}) {
     
     let message = "";
     let class_name = "product col-md-12 alert ";
@@ -25,7 +25,7 @@ function Error ({status, quantity}) {
     return(
         <div className = "row justify-content-center">
             <div className = {class_name} role = "alert">
-                {message}
+                {customMessage?customMessage:message}
             </div>
         </div>
     ); 

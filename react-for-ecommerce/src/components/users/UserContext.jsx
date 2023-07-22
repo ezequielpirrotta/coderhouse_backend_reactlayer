@@ -7,9 +7,8 @@ import Cookies from 'universal-cookie';
 
 export const UserContext = createContext();
 
-//const cookies = new Cookies();
-
 function UserContextProvider({children}) {
+    const serverEndpoint = process.env.REACT_APP_SERVER_ENDPOINT
     const port = '3000';
     const server_port = '8080';
     const endpoint = 'http://localhost:';
@@ -35,7 +34,7 @@ function UserContextProvider({children}) {
         
     },[])
     const getUser = async () => {
-        const response = await fetch(endpoint+server_port+'/api/sessions/current', {credentials: 'include'})
+        const response = await fetch(serverEndpoint+'/api/sessions/current', {credentials: 'include'})
         let userData = await response.json();
         if(response.status === 401){
             userData = null
@@ -47,6 +46,66 @@ function UserContextProvider({children}) {
         }
         return userData;
     }
+    const getUsers = async () => {
+        const response = await fetch(serverEndpoint+'/api/users/', {credentials: 'include'})
+        let userData = await response.json();
+        if(response.status === 401){
+            userData = null
+        }
+        else {
+            if(!Object.keys(user).length === 0 ){
+                userData = null
+            }
+        }
+        return userData.payload;
+    }
+    const clearUsers = () => {
+        Swal.fire({
+            icon: "warning",
+            title: 'Delete users',
+            text: 'Esta acción eliminará a los usuarios que no hayan estado activos durante las últimas 48 hs\n Desea continuar?',
+            confirmButtonText: 'Delete',
+            focusConfirm: false,
+        }).then((result) => {
+            if(result.isConfirmed){
+                let requestData = {
+                    method:"DELETE",
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                    },
+                    credentials: 'include'
+                }
+                const request = new Request(serverEndpoint+'/api/users/', requestData)
+                fetch(request)
+                .then( async (response) => {
+                    
+                    if (!response.ok) {
+                        const error = await response.json()
+                        if(error.status === "WRONG") {
+                            Swal.fire({
+                                icon: "error",
+                                title: `Error eliminando producto`,
+                                text: error.message
+                            })
+                        }
+                        else if(error.code === "Unauthorized"){
+                            Swal.fire({
+                                title: `No tienes permisos para eliminar`,
+                                icon: "error"
+                            })
+                        }
+                    } 
+                    else {
+                        Swal.fire({
+                            icon: "success",
+                            title: `Usuarios depurados correctamente!`,
+                            color: '#716add'
+                        })
+                    }
+                })
+            }
+        })
+    }
     const closeUserSession = async () => {
         Swal.fire({
             title: 'Are you sure you want to exit?',
@@ -56,7 +115,7 @@ function UserContextProvider({children}) {
             denyButtonText: `No`,
         }).then( async (result) => {
             if (result.isConfirmed) {
-                const result = await fetch(endpoint+server_port+'/api/sessions/logout',{credentials: 'include'})
+                const result = await fetch(serverEndpoint+'/api/sessions/logout',{credentials: 'include'})
                 .then((response)=>response.json())
                 if(result.error){
                     Swal.fire({
@@ -95,7 +154,7 @@ function UserContextProvider({children}) {
                 for (let i = 0; i < result.value.files.length; i++) {
                     formData.append("docs", result.value.files[i]);
                 }
-                const changeResult = await fetch(endpoint+server_port+'/api/users/'+user._id+'/documents',{
+                const changeResult = await fetch(serverEndpoint+'/api/users/'+user._id+'/documents',{
                     method:'POST',
                     body: formData,
                     headers:{
@@ -145,7 +204,7 @@ function UserContextProvider({children}) {
             if(result.isConfirmed) {
                 console.log(result)
                 
-                const changeResult = await fetch(endpoint+server_port+'/api/users/premium/'+user._id,{
+                const changeResult = await fetch(serverEndpoint+'/api/users/premium/'+user._id,{
                     method:'PUT',
                     body:JSON.stringify({role: result.value}),
                     headers:{
@@ -179,13 +238,16 @@ function UserContextProvider({children}) {
         <UserContext.Provider 
             value={{
                 user,
+                getUsers,
+                clearUsers,
                 loading,
                 port,
                 server_port,
                 endpoint,
                 closeUserSession,
                 changeRol,
-                uploadDocs
+                uploadDocs,
+                serverEndpoint
             }}>
             {children}
         </UserContext.Provider>

@@ -5,7 +5,7 @@ import { UserContext } from "./UserContext";
 
 function Login() 
 {
-    const {user, port, server_port, endpoint} = useContext(UserContext);
+    const {user, serverEndpoint} = useContext(UserContext);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
@@ -29,7 +29,7 @@ function Login()
         if (validateForm()) {
             const data = {username, password};
             console.log(data)
-            const result = await fetch(endpoint+server_port+'/api/sessions/login',{
+            const result = await fetch(serverEndpoint+'/api/sessions/login',{
                 method:'POST',
                 body:JSON.stringify(data),
                 headers:{
