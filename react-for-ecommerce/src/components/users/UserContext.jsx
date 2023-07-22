@@ -8,6 +8,7 @@ export const UserContext = createContext();
 
 function UserContextProvider({children}) {
     const serverEndpoint = process.env.REACT_APP_SERVER_ENDPOINT
+    console.log(serverEndpoint)
     const [user, setUser] = useState({});
     const [loading, setLoading] = useState(true);
    
