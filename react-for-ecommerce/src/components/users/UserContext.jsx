@@ -8,9 +8,6 @@ export const UserContext = createContext();
 
 function UserContextProvider({children}) {
     const serverEndpoint = process.env.REACT_APP_SERVER_ENDPOINT
-    const port = '3000';
-    const server_port = '8080';
-    const endpoint = 'http://localhost:';
     const [user, setUser] = useState({});
     const [loading, setLoading] = useState(true);
    
@@ -240,9 +237,6 @@ function UserContextProvider({children}) {
                 getUsers,
                 clearUsers,
                 loading,
-                port,
-                server_port,
-                endpoint,
                 closeUserSession,
                 changeRol,
                 uploadDocs,
