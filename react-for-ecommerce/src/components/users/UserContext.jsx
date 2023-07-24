@@ -8,7 +8,6 @@ export const UserContext = createContext();
 
 function UserContextProvider({children}) {
     const serverEndpoint = process.env.REACT_APP_SERVER_ENDPOINT
-    console.log(serverEndpoint)
     const [user, setUser] = useState({});
     const [loading, setLoading] = useState(true);
    
@@ -29,7 +28,7 @@ function UserContextProvider({children}) {
             setLoading(false);
         });
         
-    })
+    },[])
     const getUser = async () => {
         const response = await fetch(serverEndpoint+'/api/sessions/current', {credentials: 'include'})
         let userData = await response.json();
