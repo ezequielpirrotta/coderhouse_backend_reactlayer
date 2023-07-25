@@ -73,7 +73,7 @@ function Checkout () {
                             <div class="input-group mb-3">
                                 <label class="input-group-text" for="inputGroupSelect01">Metodos de Pago</label>
                                 <select class="form-select" onChange={handleInputChange} name="payment-method" id="inputGroupSelect01">
-                                    <option value="debit">Debito</option>
+                                    <option selected value="debit">Debito</option>
                                     <option value="credit">Credito</option>
                                     <option value="cash">Efectivo</option>
                                 </select>
