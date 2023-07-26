@@ -6,9 +6,6 @@ import Swal from 'sweetalert2';
 import { UserContext } from "../users/UserContext";
 import {MDBContainer,MDBPagination,MDBPaginationLink,MDBPaginationItem,MDBBtnGroup,MDBBtn,MDBRow, MDBCol} from "mdb-react-ui-kit"
 
-
-console.log(process.env.REACT_APP_SERVER_ENDPOINT)
-
 function ItemListContainer() 
 {
 
@@ -46,7 +43,6 @@ function ItemListContainer()
                         filters["sort"] = sort
                     }
                     if(category) {
-                        console.log("categoría")
                         params = params.length>1? params+'&category='+category : params+'category='+category
                         filters["category"] = category
                     }
@@ -64,13 +60,9 @@ function ItemListContainer()
                 else {
                     
                     data.token = user
-                    console.log(data.products)
-                    
                     data.products.prevLink = data.products.hasPrevPage? `/products?page=${data.products.prevPage}`:null;
-    
                     data.products.nextLink = data.products.hasNextPage? `/products?page=${data.products.nextPage}`:null;
                     for (const key in filters) {
-                        console.log(data.products.nextLink)
                         if(key !== "page"){
                             let result = params.search(key);
                             data.products.prevLink = result >= 0? data.products.prevLink+'&'+key+'='+filters[key] : data.products.prevLink;
@@ -79,17 +71,13 @@ function ItemListContainer()
                     }
                     data.pages = []
                     for (let i = 1; i <= data.products.totalPages; i++) {
-                        console.log(i)
                         data.pages[i] = {
                             page: i,
                             isCurrentPage: data.products.page === i? true:false,
                             link: `/products?page=${i}`
                         };
-                        console.log(data.pages[i].link)
-                        
                         for (const key in filters) {
                             if(key !== "page"){
-                                console.log(key)
                                 let result = params.search(key);
                                 data.pages[i].link = result >= 0? data.pages[i].link+'&'+key+'='+filters[key] : data.pages[i].link; 
                             }
@@ -100,7 +88,6 @@ function ItemListContainer()
                 if(data.products["error"]){
                     throw {message: products.error}
                 }
-                console.log(data)
                 setProducts(data)
             }
             catch(error) {
@@ -189,7 +176,6 @@ function ItemListContainer()
                     } 
                     else {
                         const data = await response.json()
-                        console.log(data)
                         Swal.fire({
                             title: `Producto ${data._id} creado exitosamente`,
                             color: '#716add'

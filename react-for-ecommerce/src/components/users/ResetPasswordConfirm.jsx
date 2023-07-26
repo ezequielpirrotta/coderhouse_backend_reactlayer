@@ -4,7 +4,7 @@ import { UserContext } from "./UserContext";
 
 function ResetPasswordConfirm() 
 {
-    const {port, serverEndpoint} = useContext(UserContext);
+    const {serverEndpoint, frontEndpoint} = useContext(UserContext);
     const [username, setUsername] = useState('');
     const [errors, setErrors] = useState({});
     const [sended, setSended] = useState(false)
@@ -19,8 +19,7 @@ function ResetPasswordConfirm()
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (validateForm()) {
-            const data = {username:username,link:`${serverEndpoint}/users/resetPassword`};
-            console.log(data)
+            const data = {username:username,link:`${frontEndpoint}/users/resetPassword`};
             const result = await fetch(serverEndpoint+'/api/sessions/resetPasswordConfirm',{
                 method:'POST',
                 body:JSON.stringify(data),
@@ -30,7 +29,6 @@ function ResetPasswordConfirm()
                 credentials: 'include'
             }).then((response)=>response.json())
             if(!result.code===201){
-                console.log({...result})
                 Swal.fire({
                     title:"Error enviando mail de confirmación",
                     icon:"error",

@@ -20,9 +20,7 @@ const PaymentForm = () => {
                 timer:3000,
                 showConfirmButton:false
             }).then(()=>window.location.replace('/orders'))
-            //createAlertWithCallback('success','¡Pago completado!',"El pago ha sido procesado con éxito",()=>window.location.replace('/orders'))
         } else {
-            console.log(error);
             Swal.fire({
                 icon:'error',
                 title:'Error al procesar el pago',
@@ -30,7 +28,6 @@ const PaymentForm = () => {
                 timer:3000,
                 showConfirmButton:false
             }).then(()=>window.location.replace('/orders'))
-           //createAlert('error','Error al procesar el pago',error.message)
         }
     }
     return <>

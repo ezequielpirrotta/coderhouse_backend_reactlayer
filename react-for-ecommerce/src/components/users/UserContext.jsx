@@ -8,6 +8,7 @@ export const UserContext = createContext();
 
 function UserContextProvider({children}) {
     const serverEndpoint = process.env.REACT_APP_SERVER_ENDPOINT
+    const frontEndpoint = process.env.REACT_APP_FRONT_ENDPOINT
     const [user, setUser] = useState({});
     const [loading, setLoading] = useState(true);
    
@@ -199,8 +200,6 @@ function UserContextProvider({children}) {
         
         }).then(async (result) => {
             if(result.isConfirmed) {
-                console.log(result)
-                
                 const changeResult = await fetch(serverEndpoint+'/api/users/premium/'+user._id,{
                     method:'PUT',
                     body:JSON.stringify({role: result.value}),
@@ -209,10 +208,7 @@ function UserContextProvider({children}) {
                     },
                     credentials: 'include'
                 }).then(async(response) => response.json())
-                console.log(changeResult)
                 if (changeResult.code === 201) {
-                    console.log("llegué")
-                    console.log(changeResult)
                     Swal.fire({
                         title:"Usuario actualizado correctamente",
                         icon:"success",
@@ -221,7 +217,6 @@ function UserContextProvider({children}) {
                     })
                 }
                 else {
-                    console.log({...changeResult})
                     Swal.fire({
                         title:"Error actualizando usuario",
                         icon:"error",
@@ -241,7 +236,8 @@ function UserContextProvider({children}) {
                 closeUserSession,
                 changeRol,
                 uploadDocs,
-                serverEndpoint
+                serverEndpoint,
+                frontEndpoint
             }}>
             {children}
         </UserContext.Provider>

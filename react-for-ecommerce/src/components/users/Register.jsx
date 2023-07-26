@@ -37,7 +37,6 @@ function Register()
             setUsername(value);
         } 
         else if (name === 'first_name') {
-            console.log("cambié")
             setName(value);
         } 
         else if (name === 'last_name') {
@@ -57,7 +56,6 @@ function Register()
         event.preventDefault();
         if (validateForm()) {
             const data = {username,password,name,lastName,age, adminRole: isCheckedAdmin,premiumRole: isCheckedPremium};
-            console.log(data)
             const result = await fetch(serverEndpoint+'/api/sessions/register',{
                 method:'POST',
                 body:JSON.stringify(data),
@@ -78,16 +76,12 @@ function Register()
                 },4000)
             }
             else {
-                console.log({...result})
                 Swal.fire({
                     title:"Error con su registro",
                     icon:"error",
                     text: result.message?result.message:"Intente con un usuario registrado"
                 })
             }
-        }
-        else {
-            console.log("no está bien")
         }
     };
 
@@ -99,7 +93,6 @@ function Register()
             isValid = false;
             errors['name'] = 'Please enter your name.';
         }
-        console.log(isValid)
         if (!lastName) {
             isValid = false;
             errors['lastName'] = 'Please enter your last name.';

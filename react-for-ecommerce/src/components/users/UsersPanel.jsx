@@ -16,7 +16,6 @@ function UsersPanel () {
             })
         }
     },[user,getUsers])
-    console.log(allUsers)
     return(
         <>
         {
@@ -34,7 +33,6 @@ function UsersPanel () {
                                         )
                                     }
                                     else {
-                                        console.log(otherUser)
                                         return(
                                             <li key={otherUser.username} className="list-group-item">
                                                 <div className="d-flex w-100 justify-content-between">

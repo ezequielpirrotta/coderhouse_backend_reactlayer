@@ -22,7 +22,6 @@ function CartContextProvider({children}) {
 
     const addItem = async (item, quantity) => {
         if(isInCart(item._id)) {
-            console.log("llegué")
             let pos = cart.products.findIndex(element => element.product._id === item._id);
             cart.products[pos].quantity += quantity;
             let requestData = {
@@ -190,8 +189,6 @@ function CartContextProvider({children}) {
                 if (!response.ok) {
                     const error = await response.json()
                     if(error){
-                        console.log(error)
-
                         Swal.fire({
                             title: error.message,
                             icon: 'error',
@@ -255,7 +252,6 @@ function CartContextProvider({children}) {
         return 0;
     }
     const totalPrice = () => {
-        console.log(cart)
         return cart.products.reduce((total, item) => total += item.quantity * item.product.price, 0);
     }
     

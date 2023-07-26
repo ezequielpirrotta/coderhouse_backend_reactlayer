@@ -37,7 +37,6 @@ function ResetPassword()
         event.preventDefault();
         if (validateForm()) {
             const data = {username, newPassword, confirmNewPassword};
-            console.log(data)
             const result = await fetch(serverEndpoint+'/api/sessions/resetPassword',{
                 method:'POST',
                 body:JSON.stringify(data),
@@ -50,7 +49,6 @@ function ResetPassword()
                 window.location.replace('/');
             }
             else {
-                console.log({...result})
                 Swal.fire({
                     title:"Error restableciendo su contraseña",
                     icon:"error",

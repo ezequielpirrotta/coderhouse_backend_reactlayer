@@ -36,14 +36,12 @@ function Checkout () {
                 setCreated(result)
             }
             else {
-                console.log(result)
                 Swal.fire({
                     title:"Error comprando carrito",
                     icon:"error",
                     text: result.message?result.message:"Intente de nuevo más tarde"
                 })
             }
-            console.log(order)
         }
     };           
                    

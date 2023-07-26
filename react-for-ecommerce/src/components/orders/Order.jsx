@@ -9,7 +9,6 @@ const Order = ({order}) =>
     const {deleteOrder, purchaseOrder} = useContext(OrdersContext)
 
     const handleDelete = () => {
-        console.log(order)
         deleteOrder(order)
     }
     const handlePurchase = async () => {

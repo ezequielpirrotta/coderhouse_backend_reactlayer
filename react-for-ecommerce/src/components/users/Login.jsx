@@ -28,7 +28,6 @@ function Login()
         event.preventDefault();
         if (validateForm()) {
             const data = {username, password};
-            console.log(data)
             const result = await fetch(serverEndpoint+'/api/sessions/login',{
                 method:'POST',
                 body:JSON.stringify(data),
@@ -41,8 +40,6 @@ function Login()
                 window.location.replace('/products');
             }
             else {
-                console.log(result)
-                
                 Swal.fire({
                     title:"Error con su inicio de sesión",
                     icon:"error",

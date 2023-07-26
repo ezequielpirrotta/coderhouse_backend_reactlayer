@@ -16,7 +16,6 @@ const ItemDetail = ({product}) =>
     const onAdd = async (quantity, stock) => {
         if((stock > 0) && (quantity <= stock)) {
             const result = await addItem(product, quantity);
-            console.log(result)
             setSold(result);
         }
         else {
@@ -73,7 +72,6 @@ const ItemDetail = ({product}) =>
                 
                 if (!response.ok) {
                     const error = await response.json()
-                    console.log(error)
                     if(error.status === "WRONG") {
                         Swal.fire({
                             title: `Producto no creado`,
