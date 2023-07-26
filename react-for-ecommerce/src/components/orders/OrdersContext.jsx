@@ -56,7 +56,6 @@ function OrdersContextProvider({children}) {
         return result
     }
     const purchaseOrder = async (order) => {
-        console.log(order)
         let requestData = {
             method:"GET",
             headers: {
@@ -89,7 +88,7 @@ function OrdersContextProvider({children}) {
                     icon: "success",
                     title: `Orden adquirida correctamente mediante el medio de pago ${order.paymentMethod}!`,
                     color: '#716add'
-                }).then(()=>{window.location.reload();})
+                })
             }
         })
 

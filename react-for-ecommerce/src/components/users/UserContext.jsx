@@ -66,6 +66,7 @@ function UserContextProvider({children}) {
             if(result.isConfirmed){
                 let requestData = {
                     method:"DELETE",
+                    body: JSON.stringify({username: user.username}),
                     headers: {
                         'Content-type': 'application/json; charset=UTF-8',
                     },
@@ -96,7 +97,7 @@ function UserContextProvider({children}) {
                             icon: "success",
                             title: `Usuarios depurados correctamente!`,
                             color: '#716add'
-                        })
+                        }).then(()=>{window.location.reload()})
                     }
                 })
             }

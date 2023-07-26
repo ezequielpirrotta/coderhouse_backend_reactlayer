@@ -4,10 +4,8 @@ import Order from "./Order";
 import Error from "../errors_&_timeout/Error";
 import { OrdersContext } from "./OrdersContext";
 import { UserContext } from "../users/UserContext";
-//import { UserContext } from "../users/UserContext";
 
 function Orders () {
-    //const {user} = useContext(UserContext)
     const {getOrders} = useContext(OrdersContext)
     const {user} =  useContext(UserContext)
     const [orders, setOrders] = useState([])

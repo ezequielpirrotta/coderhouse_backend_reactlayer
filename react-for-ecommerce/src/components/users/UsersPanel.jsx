@@ -27,17 +27,26 @@ function UsersPanel () {
 
                         <ul className="list-group col-8">
                             {
-                                allUsers.map(user => {
-                                    return(
-                                        <li className="list-group-item">
-                                            <div className="d-flex w-100 justify-content-between">
-                                                <h5 className="mb-1">{user.name}</h5>
-                                                <small>3 days ago</small>
-                                            </div>
-                                            <p className="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                                            <small>Donec id elit non mi porta.</small>
-                                        </li>
-                                    )
+                                allUsers.map(otherUser => {
+                                    if(user.username === otherUser.username){
+                                        return(
+                                            null
+                                        )
+                                    }
+                                    else {
+                                        console.log(otherUser)
+                                        return(
+                                            <li key={otherUser.username} className="list-group-item">
+                                                <div className="d-flex w-100 justify-content-between">
+                                                    <h5 className="mb-1"><b>{otherUser.name}</b>
+                                                        <span className={`m-2 badge ${otherUser.role==="user"?'bg-success':user.role==="premium"?'bg-warning':"bg-danger"}`}>{otherUser.role}</span>
+                                                    </h5>
+                                                    <small>{otherUser.last_connection}</small>
+                                                </div>
+                                                <p className="mb-1"><b>Mail:</b> {otherUser.username}</p>
+                                            </li>
+                                        )
+                                    }
                                 })
                             }
                         </ul>

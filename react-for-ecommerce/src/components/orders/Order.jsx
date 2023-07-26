@@ -13,7 +13,7 @@ const Order = ({order}) =>
         deleteOrder(order)
     }
     const handlePurchase = async () => {
-        purchaseOrder(order)
+        await purchaseOrder(order).then(()=>{window.location.replace('/orders');})
     }
     let count = 0;
     if(order !== null && order !== undefined){

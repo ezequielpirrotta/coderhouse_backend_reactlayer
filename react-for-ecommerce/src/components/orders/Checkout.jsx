@@ -9,51 +9,42 @@ function Checkout () {
     const [created, setCreated] = useState(false)
     const [order, setOrder] = useState({})
     const [paymentMethod, setPaymentMethod] = useState('')
+    const [errors, setErrors] = useState({});
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-
         if (name === 'payment-method') {
             setPaymentMethod(value);
         } 
-        /*else if (name === 'password') {
-            setPassword(value);
-        } */
     };
-
-    useEffect(() => {
-
-        let forms = document.querySelectorAll('.needs-validation')
-       
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-            
-                    form.classList.add('was-validated')
-                }, false)
-            });
-            
-    },[created])
+    const validateForm = () => {
+        let errors = {};
+        let isValid = true;
+        if (!paymentMethod || paymentMethod==='') {
+            isValid = false;
+            errors['payment'] = 'Please enter a valid payment method.';
+        }
+        setErrors(errors);
+        return isValid;
+    }
     const generateOrder = async (e) => {
         e.preventDefault()
-        const result = await purchaseCart(paymentMethod)
-        if(result){
-            setOrder(result.order)
-            setCreated(result)
+        if (validateForm()) {
+            const result = await purchaseCart(paymentMethod)
+            if(result){
+                setOrder(result.order)
+                setCreated(result)
+            }
+            else {
+                console.log(result)
+                Swal.fire({
+                    title:"Error comprando carrito",
+                    icon:"error",
+                    text: result.message?result.message:"Intente de nuevo más tarde"
+                })
+            }
+            console.log(order)
         }
-        else {
-            console.log(result)
-            Swal.fire({
-                title:"Error comprando carrito",
-                icon:"error",
-                text: result.message?result.message:"Intente de nuevo más tarde"
-            })
-        }
-        console.log(order)
     };           
                    
     if(!created) {
@@ -70,13 +61,18 @@ function Checkout () {
                     <div className="shadow-lg bg-body rounded">
         
                         <form className="card-body row g-3 justify-content-center needs-validation" onSubmit={generateOrder} noValidate>
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="inputGroupSelect01">Metodos de Pago</label>
-                                <select class="form-select" onChange={handleInputChange} name="payment-method" id="inputGroupSelect01">
-                                    <option selected value="debit">Debito</option>
+                            <div className="input-group mb-3">
+                                <label className="input-group-text" htmlFor="inputGroupSelect01">Metodos de Pago</label>
+                                <select className={`form-control ${errors['payment'] ? 'is-invalid' : ''}`} onChange={handleInputChange} name="payment-method" id="inputGroupSelect01">
+                                    <option disabled selected value> -- select an option -- </option>
+                                    <option value="debit">Debito</option>
                                     <option value="credit">Credito</option>
                                     <option value="cash">Efectivo</option>
                                 </select>
+                                <div className="valid-feedback">
+                                    ¡Se ve bien!
+                                </div>
+                                {errors['payment'] && <div className="invalid-feedback">{errors['payment']}</div>}
                             </div>
                             <div className="col-12">
                                 <button className="btn btn-primary" type="submit">Generar orden</button>
