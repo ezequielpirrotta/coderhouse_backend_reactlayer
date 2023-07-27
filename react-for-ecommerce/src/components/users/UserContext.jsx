@@ -104,6 +104,53 @@ function UserContextProvider({children}) {
             }
         })
     }
+    const deleteUser = (username) => {
+        Swal.fire({
+            icon: "warning",
+            title: 'Delete user',
+            text: 'Esta acción eliminará al usuario '+username+', esta acción no se puede revertir.',
+            confirmButtonText: 'Delete',
+            focusConfirm: false,
+        }).then((result) => {
+            if(result.isConfirmed){
+                let requestData = {
+                    method:"DELETE",
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                    },
+                    credentials: 'include'
+                }
+                const request = new Request(serverEndpoint+'/api/users/'+username, requestData)
+                fetch(request)
+                .then( async (response) => {
+                    
+                    if (!response.ok) {
+                        const error = await response.json()
+                        if(error.status === "WRONG") {
+                            Swal.fire({
+                                icon: "error",
+                                title: `Error eliminando usuario`,
+                                text: error.message
+                            })
+                        }
+                        else if(error.code === "Unauthorized"){
+                            Swal.fire({
+                                title: `No tienes permisos para eliminar`,
+                                icon: "error"
+                            })
+                        }
+                    } 
+                    else {
+                        Swal.fire({
+                            icon: "success",
+                            title: `Usuarios depurado correctamente!`,
+                            color: '#716add'
+                        }).then(()=>{window.location.reload()})
+                    }
+                })
+            }
+        })
+    }
     const closeUserSession = async () => {
         Swal.fire({
             title: 'Are you sure you want to exit?',
@@ -231,6 +278,7 @@ function UserContextProvider({children}) {
             value={{
                 user,
                 getUsers,
+                deleteUser,
                 clearUsers,
                 loading,
                 closeUserSession,

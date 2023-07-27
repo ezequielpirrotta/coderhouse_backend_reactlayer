@@ -1,6 +1,7 @@
 /**Contextos */
 import CartContextProvider from './components/carts/CartContext';
 import UserContextProvider from './components/users/UserContext';
+import ItemsContextProvider from './components/items/ItemsContext';
 /* Items */
 import ItemDetailContainer from './components/items/ItemDetailContainer';
 import ItemListContainer from './components/items/ItemListContainer';
@@ -28,30 +29,32 @@ function App() {
   return (
     <div>
       <UserContextProvider>
-        <CartContextProvider>
-          <OrdersContextProvider>
-            <BrowserRouter>    
-              <NavBar/>
-              <Routes>
-                <Route path={"/"} element={<Login/>}/> 
-                <Route path={'/users/resetPassword/sendEmail'} element={<ResetPasswordConfirm/>}/>
-                <Route path={'/users/resetPassword/:token'} element={<ResetPassword/>}/>
-                <Route path={'/register'} element={<Register/>}/>
-                <Route path={'/users'} element={<Profile/>}/>
-                <Route path={'/users/panel'} element={<UsersPanel/>}/>
-                <Route path={"/products"} element={<ItemListContainer/>}/> 
-                <Route path={"/categoria/:cat"} element={<ItemListContainer/>}/> 
-                <Route path={"/producto/:id"} element={<ItemDetailContainer/>}/> 
-                <Route path={"/cart"} element={<Cart/>}/>
-                <Route path={"/checkout"} element={<Checkout/>}/>
-                <Route path={"/orders"} element={<Orders/>}/>
-                <Route path={"/orders/:orderId"} element={<Orders/>}/>
-                <Route path={"/purchaseOrder"} element={<PaymentForm/>}/>
-                <Route path={'/chat'} element={<Chat />} /> 
-              </Routes>
-            </BrowserRouter>
-          </OrdersContextProvider>
-        </CartContextProvider>
+        <ItemsContextProvider>
+          <CartContextProvider>
+            <OrdersContextProvider>
+              <BrowserRouter>    
+                <NavBar/>
+                <Routes>
+                  <Route path={"/"} element={<Login/>}/> 
+                  <Route path={'/users/resetPassword/sendEmail'} element={<ResetPasswordConfirm/>}/>
+                  <Route path={'/users/resetPassword/:token'} element={<ResetPassword/>}/>
+                  <Route path={'/register'} element={<Register/>}/>
+                  <Route path={'/users'} element={<Profile/>}/>
+                  <Route path={'/users/panel'} element={<UsersPanel/>}/>
+                  <Route path={"/products"} element={<ItemListContainer/>}/> 
+                  <Route path={"/categoria/:cat"} element={<ItemListContainer/>}/> 
+                  <Route path={"/producto/:id"} element={<ItemDetailContainer/>}/> 
+                  <Route path={"/cart"} element={<Cart/>}/>
+                  <Route path={"/checkout"} element={<Checkout/>}/>
+                  <Route path={"/orders"} element={<Orders/>}/>
+                  <Route path={"/orders/:orderId"} element={<Orders/>}/>
+                  <Route path={"/purchaseOrder"} element={<PaymentForm/>}/>
+                  <Route path={'/chat'} element={<Chat />} /> 
+                </Routes>
+              </BrowserRouter>
+            </OrdersContextProvider>
+          </CartContextProvider>
+        </ItemsContextProvider>
       </UserContextProvider>
     </div>
   );

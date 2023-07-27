@@ -5,11 +5,13 @@ import {useSearchParams } from "react-router-dom";
 import Swal from 'sweetalert2';
 import { UserContext } from "../users/UserContext";
 import {MDBContainer,MDBPagination,MDBPaginationLink,MDBPaginationItem,MDBBtnGroup,MDBBtn,MDBRow, MDBCol} from "mdb-react-ui-kit"
+import { ItemsContext } from "./ItemsContext";
 
 function ItemListContainer() 
 {
 
     const {user, serverEndpoint} = useContext(UserContext)
+    const {createProduct} = useContext(ItemsContext)
     const [products, setProducts] = useState({});
     const [searchParams, setSearchParams] = useSearchParams();
     
@@ -103,88 +105,7 @@ function ItemListContainer()
             })
         }
     }, [searchParams,user]);
-    const createProduct = async() => {
-        Swal.fire({
-            title: 'Create Product',
-            html:  `
-                    <div>
-                        <input type="text" id="title" class="swal2-input" placeholder="title">
-                        <input type="number" id="price" class="swal2-input" placeholder="price">
-                        <input type="text" id="description" class="swal2-input" placeholder="description">
-                        <select id="category" class="swal2-input" aria-label="Default select example">
-                            <option selected value="comida">Comida</option>
-                            <option value="ropa">Ropa</option>
-                            <option value="otros">Otros</option>
-                        </select>
-                        <input type="number" id="stock" class="swal2-input" placeholder="stock">
-                        <input type="file" id="image" class="swal2-input" placeholder="image">
-                    </div>`,
-            confirmButtonText: 'Create',
-            cancelButtonText: 'Cancel',
-            showCancelButton: true,
-            allowOutsideClick: false,
-            focusConfirm: false,
-            preConfirm: () => {
-                const title = Swal.getPopup().querySelector('#title').value
-                const price = Swal.getPopup().querySelector('#price').value
-                const description = Swal.getPopup().querySelector('#description').value
-                const category = Swal.getPopup().querySelector('#category').value
-                const stock = Swal.getPopup().querySelector('#stock').value
-                const image = Swal.getPopup().querySelector('#image').value
-
-                if (!price || !description || !title || !category || !stock || !image) {
-                    Swal.showValidationMessage(`Please complete all the fields`)
-                }
-                return { price: price, description: description, title: title, category:category, stock:stock, image:image}
-            }
-        }).then((result) => {
-            if(result.isConfirmed) {
-                let data = {
-                    price: parseInt(result.value.price), 
-                    description: result.value.description, 
-                    title: result.value.title,
-                    category: result.value.category,
-                    stock: parseInt(result.value.stock),
-                    thumbnail: result.value.image
-                }
-                
-                let requestData = {
-                    method:"POST",
-                    body: JSON.stringify(data),
-                    headers: {
-                        'Content-type': 'application/json; charset=UTF-8',
-                    },
-                    credentials: 'include'
-                }
-                const request = new Request(serverEndpoint+'/api/products/', requestData)
-                fetch(request)
-                .then( async (response) => {
-                    
-                    if (!response.ok) {
-                        const error = await response.json()
-                        if(error.status === "WRONG") {
-                            Swal.fire({
-                                title: `Producto no creado`,
-                                text: error.message
-                            })
-                        }
-                        else if(error.code === "Unauthorized"){
-                            Swal.fire({
-                                title: `No tienes permisos para crear`,
-                            })
-                        }
-                    } 
-                    else {
-                        const data = await response.json()
-                        Swal.fire({
-                            title: `Producto ${data._id} creado exitosamente`,
-                            color: '#716add'
-                        })
-                    }
-                })
-            }
-        })
-    }
+    
     if(!(Object.keys(products).length === 0) ){
         return (
             <MDBContainer fluid className="py-5 container-fluid justify-content-center" style={{ backgroundColor: "transparent" }}>
