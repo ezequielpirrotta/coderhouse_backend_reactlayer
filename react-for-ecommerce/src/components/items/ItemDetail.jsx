@@ -6,12 +6,14 @@ import { CartContext } from "../carts/CartContext";
 import { ItemsContext } from "./ItemsContext";
 import { Link } from "react-router-dom";
 import { MDBCardBody, MDBCardText,MDBCardTitle,MDBCardImage, MDBCard, MDBIcon } from "mdb-react-ui-kit";
+import { UserContext } from "../users/UserContext";
 
 
 const ItemDetail = ({product}) => 
 {
     const {addItem} = useContext(CartContext);
     const {editProduct, deleteProduct} = useContext(ItemsContext)
+    const {user} = useContext(UserContext)
     const [sold, setSold] = useState(false);
     const onAdd = async (quantity, stock) => {
         if((stock > 0) && (quantity <= stock)) {
@@ -54,10 +56,14 @@ const ItemDetail = ({product}) =>
                                 <MDBCardText>
                                     {"Stock: " + product.stock}
                                 </MDBCardText>
-                                {!sold ? 
-                                    <ItemCount stock={product.stock} onAdd={onAdd} onEdit={onEdit} onDelete={onDelete}/>
-                                    :
-                                    <Link className="btn btn-outline-primary" to={"/cart"}>Terminar Compra</Link>
+                                {
+                                    user?
+                                        !sold ? 
+                                            <ItemCount stock={product.stock} onAdd={onAdd} onEdit={onEdit} onDelete={onDelete}/>
+                                            :
+                                            <Link className="btn btn-outline-primary" to={"/cart"}>Terminar Compra</Link>
+                                        :
+                                        null
                                 }
                             </MDBCardBody>
                         </MDBCard>
